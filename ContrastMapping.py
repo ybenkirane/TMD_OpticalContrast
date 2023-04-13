@@ -38,7 +38,8 @@ def plot_gray_value_vs_position(images, titles, extended_crop):
     ax1.set_title('Cropped Region with Surrounding Area')
 
     # Plot the gray value vs position for the original and individual channels
-    for i, (image, title) in enumerate(zip(images, titles)):
+    colors = ['black', 'red', 'green', 'blue']
+    for i, (image, title, color) in enumerate(zip(images, titles, colors)):
         gray_image = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
         long_side_length = max(gray_image.shape)
         long_side_idx = np.argmax(gray_image.shape)
@@ -50,7 +51,8 @@ def plot_gray_value_vs_position(images, titles, extended_crop):
             gray_values = np.mean(gray_image, axis=0)
 
         ax = fig.add_subplot(2, 4, i + 5)
-        ax.plot(positions, gray_values)
+        ax.plot(positions, gray_values, color=color)
+        ax.grid(True)
         ax.set_xlabel('Position')
         ax.set_ylabel('Gray Value')
         ax.set_title(title)
@@ -93,7 +95,7 @@ def process_image():
         cv2.merge([np.zeros_like(r_channel),
                   np.zeros_like(g_channel), b_channel])
     ]
-    titles = ['Original Image', 'R Channel', 'G Channel', 'B Channel']
+    titles = ['Full-Color Image', 'R Channel', 'G Channel', 'B Channel']
     plot_gray_value_vs_position(images, titles, extended_crop)
 
 
